@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flash-Cards</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Заголовок -->
+    <h1 class="app__title">Flash-Cards</h1>
+
+    <!-- Одна строка со всеми кнопками -->
+<div class="btn-row">
+  <button class="btn" id="openDecksBtn">
+    📂 <span class="label" id="currentDeckName">Раздел</span>
+  </button>
+  <button class="btn" id="openCardListBtn">
+    📋 <span class="label">Список</span>
+  </button>
+  <button class="btn" id="toggleFavFilterBtn">
+    ⭐ <span class="label">Избранные</span>
+  </button>
+  <button class="btn" id="openSettingsBtn">
+    ⚙️ <span class="label">Настройки</span>
+  </button>
+</div>
+
+    <!-- Карточка -->
+    <div class="card-container" id="cardContainer">
+      <div class="card" id="card">
+        <div class="card__face card__face--front">
+          <span class="card__label">Word</span>
+          <button class="card__star" id="starFront" title="В избранное">☆</button>
+          <h2 id="wordText">—</h2>
+          <span class="card__hint">Нажми, чтобы увидеть определение</span>
+        </div>
+        <div class="card__face card__face--back">
+          <span class="card__label">Definition</span>
+          <button class="card__star" id="starBack" title="В избранное">☆</button>
+          <p id="definitionText">—</p>
+          <span class="card__hint">Нажми для следующей карточки</span>
+        </div>
+      </div>
+    </div>
+
+<div class="btn-row">
+  <div class="sort-wrap">
+    <button class="btn" id="sortBtn">🔀 Сортировать ▾</button>
+    <div class="sort-menu" id="sortMenu" hidden>
+      <button class="sort-menu__item" data-sort="default">📋 По порядку</button>
+      <button class="sort-menu__item" data-sort="random">🎲 Рандом</button>
+      <button class="sort-menu__item" data-sort="reverse">🔄 С конца</button>
+      <button class="sort-menu__item" data-sort="fav-first">⭐ Избранные вперёд</button>
+    </div>
+  </div>
+  <button class="btn" id="addBtn">🃏 Добавить карточку</button>
+</div>
+  </div>
+
+  <!-- Модалка: разделы -->
+  <div class="modal" id="decksModal">
+    <div class="modal__content">
+      <h2>Разделы</h2>
+      <ul class="deck-list" id="deckList"></ul>
+
+      <label>
+        Новый раздел
+        <input type="text" id="newDeckName" placeholder="Например: Биология">
+      </label>
+
+<div class="modal__actions">
+  <button class="btn" id="closeDecksBtn">Закрыть</button>
+  <button class="btn btn--primary" id="createDeckBtn">Создать</button>
+</div>
+    </div>
+  </div>
+
+<!-- Модалка: список карточек -->
+<div class="modal" id="cardListModal">
+  <div class="modal__content modal__content--wide">
+    <div class="modal__header">
+      <h2>Карточки раздела</h2>
+      <span class="modal__badge">🃏 <span id="cardListCount">0</span></span>
+    </div>
+    <ul class="card-list" id="cardList"></ul>
+    <p class="card-list__empty" id="cardListEmpty" hidden>В этом разделе пока нет карточек</p>
+    <div class="modal__actions">
+      <button class="btn" id="closeCardListBtn">Закрыть</button>
+      <button class="btn btn--primary" id="addCardFromListBtn">🃏 Добавить карточку</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Модалка: настройки -->
+  <div class="modal" id="settingsModal">
+    <div class="modal__content">
+      <h2>Настройки</h2>
+
+<label>
+  Тема
+  <select id="themeSelect">
+    <option value="system">Системная</option>
+    <option value="dark">Тёмная</option>
+    <option value="light">Светлая</option>
+  </select>
+</label>
+
+<label>
+  Шрифт карточки
+  <select id="fontSelect">
+    <option value="system">Системный</option>
+    <option value="serif">Serif</option>
+    <option value="mono">Monospace</option>
+    <option value="rounded">Rounded</option>
+    <option value="condensed">Condensed</option>
+  </select>
+</label>
+
+      <label>
+        Анимация переворота
+        <select id="animationSelect">
+          <option value="flipY">Переворот (Y)</option>
+          <option value="flipX">Переворот (X)</option>
+          <option value="fade">Плавное затухание</option>
+          <option value="slide">Скольжение</option>
+          <option value="zoom">Увеличение</option>
+        </select>
+      </label>
+
+      <label>
+        Скорость анимации
+        <select id="speedSelect">
+          <option value="0.3">Быстро</option>
+          <option value="0.6" selected>Обычно</option>
+          <option value="1">Медленно</option>
+        </select>
+      </label>
+
+      <label class="checkbox">
+        <input type="checkbox" id="shuffleOnStart">
+        Перемешивать карточки при старте раздела
+      </label>
+
+<div class="modal__actions">
+  <button class="btn" id="resetSettingsBtn">Сбросить</button>
+  <button class="btn btn--primary" id="closeSettingsBtn">Готово</button>
+</div>
+    </div>
+  </div>
+
+<!-- Модалка: добавить / редактировать карточку -->
+<div class="modal" id="cardModal">
+  <div class="modal__content">
+    <h2 id="cardModalTitle">Новая карточка</h2>
+    <label>
+      Word
+      <input type="text" id="newWord" placeholder="Например: Гипотеза">
+    </label>
+    <label>
+      Definition
+      <textarea id="newDefinition" placeholder="Например: Предположение, требующее доказательства"></textarea>
+    </label>
+    <div class="modal__actions">
+      <button class="btn" id="cancelBtn">Отмена</button>
+      <button class="btn btn--primary" id="saveBtn">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
