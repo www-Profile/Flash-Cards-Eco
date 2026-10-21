@@ -1,94 +1,13 @@
 // ============================================================
 //  ХРАНИЛИЩЕ
 // ============================================================
-const STORAGE_KEY = "flashcards-state-v3";
+const STORAGE_KEY = "flashcards-state-v5";
 
 const DEFAULT_DECKS = [
   {
-    name: "Счета 01-20",
+    name: "Папка",
     cards: [
-      { word: "01", definition: "Основные средства",                                     favorite: false },
-      { word: "02", definition: "Амортизация основных средств",                          favorite: false },
-      { word: "03", definition: "Доходные вложения в материальные ценности",             favorite: false },
-      { word: "04", definition: "Нематериальные активы",                                 favorite: false },
-      { word: "05", definition: "Амортизация нематериальных активов",                    favorite: false },
-      { word: "07", definition: "Оборудование к установке",                              favorite: false },
-      { word: "08", definition: "Вложения во внеоборотные активы",                       favorite: false },
-      { word: "09", definition: "Отложенные налоговые активы",                           favorite: false },
-      { word: "10", definition: "Материалы",                                             favorite: false },
-      { word: "11", definition: "Животные на выращивании и откорме",                     favorite: false },
-      { word: "14", definition: "Резервы под снижение стоимости материальных ценностей", favorite: false },
-      { word: "15", definition: "Заготовление и приобретение материальных ценностей",    favorite: false },
-      { word: "16", definition: "Отклонение в стоимости материальных ценностей",         favorite: false },
-      { word: "19", definition: "Налог на добавленную стоимость по приобретенным ценностям", favorite: false },
-      { word: "20", definition: "Основное производство",                                 favorite: false }
-    ]
-  },
-  {
-    name: "Счета 21-40",
-    cards: [
-      { word: "21", definition: "Полуфабрикаты собственного производства",   favorite: false },
-      { word: "23", definition: "Вспомогательные производства",              favorite: false },
-      { word: "25", definition: "Общепроизводственные расходы",              favorite: false },
-      { word: "26", definition: "Общехозяйственные расходы",                 favorite: false },
-      { word: "28", definition: "Брак в производстве",                       favorite: false },
-      { word: "29", definition: "Обслуживающие производства и хозяйства",    favorite: false },
-      { word: "40", definition: "Выпуск продукции (работ, услуг)",           favorite: false }
-    ]
-  },
-  {
-    name: "Счета 41-60",
-    cards: [
-      { word: "41", definition: "Товары",                                             favorite: false },
-      { word: "42", definition: "Торговая наценка",                                   favorite: false },
-      { word: "43", definition: "Готовая продукция",                                  favorite: false },
-      { word: "44", definition: "Расходы на продажу",                                 favorite: false },
-      { word: "45", definition: "Товары отгруженные",                                 favorite: false },
-      { word: "46", definition: "Выполненные этапы по незавершенным работам",         favorite: false },
-      { word: "50", definition: "Касса",                                              favorite: false },
-      { word: "51", definition: "Расчетные счета",                                    favorite: false },
-      { word: "52", definition: "Валютные счета",                                     favorite: false },
-      { word: "55", definition: "Специальные счета в банках",                         favorite: false },
-      { word: "57", definition: "Переводы в пути",                                    favorite: false },
-      { word: "58", definition: "Финансовые вложения",                                favorite: false },
-      { word: "59", definition: "Резервы под обесценение финансовых вложений",        favorite: false },
-      { word: "60", definition: "Расчеты с поставщиками и подрядчиками",              favorite: false }
-    ]
-  },
-  {
-    name: "Счета 61-80",
-    cards: [
-      { word: "62", definition: "Расчеты с покупателями и заказчиками",       favorite: false },
-      { word: "63", definition: "Резервы по сомнительным долгам",             favorite: false },
-      { word: "66", definition: "Расчеты по краткосрочным кредитам и займам", favorite: false },
-      { word: "67", definition: "Расчеты по долгосрочным кредитам и займам",  favorite: false },
-      { word: "68", definition: "Расчеты по налогам и сборам",                favorite: false },
-      { word: "69", definition: "Расчеты по социальному страхованию и обеспечению", favorite: false },
-      { word: "70", definition: "Расчеты с персоналом по оплате труда",       favorite: false },
-      { word: "71", definition: "Расчеты с подотчетными лицами",              favorite: false },
-      { word: "73", definition: "Расчеты с персоналом по прочим операциям",   favorite: false },
-      { word: "75", definition: "Расчеты с учредителями",                     favorite: false },
-      { word: "76", definition: "Расчеты с разными дебиторами и кредиторами", favorite: false },
-      { word: "77", definition: "Отложенные налоговые обязательства",         favorite: false },
-      { word: "79", definition: "Внутрихозяйственные расчеты",                favorite: false },
-      { word: "80", definition: "Уставный капитал",                           favorite: false }
-    ]
-  },
-  {
-    name: "Счета 81-99",
-    cards: [
-      { word: "81", definition: "Собственные акции (доли)",                                favorite: false },
-      { word: "82", definition: "Резервный капитал",                                       favorite: false },
-      { word: "83", definition: "Добавочный капитал",                                      favorite: false },
-      { word: "84", definition: "Нераспределенная прибыль (непокрытый убыток)",            favorite: false },
-      { word: "86", definition: "Целевое финансирование",                                  favorite: false },
-      { word: "90", definition: "Продажи",                                                 favorite: false },
-      { word: "91", definition: "Прочие доходы и расходы",                                 favorite: false },
-      { word: "94", definition: "Недостачи и потери от порчи ценностей",                   favorite: false },
-      { word: "96", definition: "Резервы предстоящих расходов",                            favorite: false },
-      { word: "97", definition: "Расходы будущих периодов",                                favorite: false },
-      { word: "98", definition: "Доходы будущих периодов",                                 favorite: false },
-      { word: "99", definition: "Прибыли и убытки",                                        favorite: false }
+      { word: "Понятие",      definition: "Определеие",              favorite: false }
     ]
   }
 ];
@@ -399,10 +318,10 @@ function renderDeckList() {
     name.className = "deck-item__name";
     name.textContent = deck.name;
 
-const favCount = deck.cards.filter((c) => c.favorite).length;
-const count = document.createElement("span");
-count.className = "deck-item__count";
-count.textContent = `🃏 ${deck.cards.length} · ⭐ ${favCount}`;
+    const favCount = deck.cards.filter((c) => c.favorite).length;
+    const count = document.createElement("span");
+    count.className = "deck-item__count";
+    count.textContent = `🃏 ${deck.cards.length} · ⭐ ${favCount}`;
 
     const del = document.createElement("button");
     del.className = "deck-item__delete";
@@ -416,7 +335,13 @@ count.textContent = `🃏 ${deck.cards.length} · ⭐ ${favCount}`;
     li.appendChild(name);
     li.appendChild(count);
     li.appendChild(del);
-    li.addEventListener("click", () => switchDeck(index));
+
+    // Тап по li — переключение раздела.
+    // Игнорируем тап по кнопке удаления.
+    li.addEventListener("click", (e) => {
+      if (e.target.closest(".deck-item__delete")) return;
+      switchDeck(index);
+    });
 
     deckListEl.appendChild(li);
   });
@@ -429,15 +354,15 @@ function switchDeck(index) {
   isAnimating = false;
   cardEl.classList.remove("is-flipped");
 
-  // Сбрасываем порядок под новый раздел
   const deck = currentDeck();
   viewOrder = deck.cards.map((_, i) => i);
+
+  closeDecksModal();
 
   if (settings.shuffleOnStart) {
     sortCards("random");
   } else {
     saveState();
-    closeDecksModal();
     loadCurrentCard();
   }
 }
@@ -683,6 +608,7 @@ function sortCards(mode) {
   saveState();
   loadCurrentCard();
   updateSortMenu();
+    closeDecksModal();
 }
 
 function updateSortMenu() {
@@ -820,3 +746,4 @@ applySettings();
 if (settings.shuffleOnStart) sortCards("random");
 loadCurrentCard();
 updateSortMenu();
+
